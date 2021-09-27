@@ -1,0 +1,64 @@
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: jellyfin-web
+#   namespace: jf
+#   annotations:
+#     # traefik.ingress.kubernetes.io/router.entrypoints: web
+#     traefik.ingress.kubernetes.io/rule-type: PathPrefixStrip
+#     # kubernetes.io/ingress.class: traefik
+#     # traefik.frontend.rule.type: PathPrefixStrip
+#     # traefik.ingress.kubernetes.io/rewrite-target: /
+# spec:
+#   ingressClassName: "traefik-lb"
+#   rules:
+#   - host: kub1.local
+#   # - port: 8096
+#     http:
+#       paths:
+#       - path: /jf
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: jellyfin
+#             port:
+#               name: web
+
+---
+# kind: Middleware
+# metadata:
+#   name: admin-stripprefix
+# spec:
+#   stripPrefix:
+#     prefixes:
+#       - /jf
+# ---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix
+  namespace: jf
+spec:
+  stripPrefix:
+    prefixes:
+      - /jf
+---
+# https://jellyfin.org/docs/general/networking/index.html
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jellyfin-route
+  namespace: jf
+spec:
+  entryPoints:                      
+    - web
+  routes:                           
+  - kind: Rule
+    match: PathPrefix(`/`)
+    # match: PathPrefix(`/jf`) 
+    # middlewares:       
+    # - name: stripprefix
+    services:          
+    - name: jellyfin
+      port: web
+      namespace: jf

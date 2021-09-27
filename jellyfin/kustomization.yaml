@@ -1,0 +1,11 @@
+# secretGenerator:
+  # - name: trader-exchange
+    # literals:
+      # - a=b
+resources:
+  - deployment.yaml
+  - service.yaml
+  - pvc.yaml
+  - persistent-local-volume.yaml
+  - ingress.yaml
+  - namespace.yaml

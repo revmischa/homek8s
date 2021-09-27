@@ -1,0 +1,13 @@
+---
+kind: IngressRouteUDP
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+ name: dns-udp
+ namespace: kube-system
+spec:
+  entryPoints:
+   - dns
+  routes:
+  - services:
+    - name: coredns
+      port: dns 

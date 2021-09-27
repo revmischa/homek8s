@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: jf
+  name: jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      containers:
+      - env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        image: docker.io/jellyfin/jellyfin
+        imagePullPolicy: IfNotPresent
+        name: jellyfin
+        ports:
+        - containerPort: 8096
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /gg
+          name: golden-gate-vol
+        - mountPath: /config
+          name: jellyfin-config
+      restartPolicy: Always
+      volumes:
+      - name: golden-gate-vol
+        persistentVolumeClaim:
+          claimName: golden-gate-vol
+      - name: jellyfin-config
+        persistentVolumeClaim:
+          claimName: jellyfin-config
