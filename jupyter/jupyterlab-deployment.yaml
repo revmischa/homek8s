@@ -20,7 +20,7 @@ spec:
         fsGroup: 0
       containers:
         - name: jupyterlab
-          image: jupyter/datascience-notebook:latest
+          image: jupyter/scipy-notebook:latest
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 8888
@@ -31,7 +31,7 @@ spec:
               start.sh jupyter lab --LabApp.ip='0.0.0.0' --LabApp.allow_root=True
           volumeMounts:
             - name: jupyterlab-data
-              mountPath: /home/jovian
+              mountPath: /home/jovyan
       restartPolicy: Always
       volumes:
       - name: jupyterlab-data
