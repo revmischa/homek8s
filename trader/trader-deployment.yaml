@@ -50,7 +50,7 @@ spec:
         stdin: true
         env:
         - name: DATABASE_URL
-          value: sqlite:////mnt/trader/trader-v1.db
+          value: sqlite:////mnt/trader/trader-v2.db
         - name: EXCHG_API_KEY
           valueFrom:
             secretKeyRef:

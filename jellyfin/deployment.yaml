@@ -31,7 +31,7 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.namespace
-        image: docker.io/jellyfin/jellyfin
+        image: docker.io/jellyfin/jellyfin:20211112.9-unstable-armhf
         imagePullPolicy: IfNotPresent
         name: jellyfin
         ports:
