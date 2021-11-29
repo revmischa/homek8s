@@ -1,8 +1,6 @@
 secretGenerator:
   - name: trader-exchange
-    literals:
-      - api-key=L7PYkFZANCXfmGWAD4eUf4YxZb4QNT6gBURdFRV
-      - secret=ohJZUgQoutV4t6MjjAwNZaf4O9c-2dw_sA_JyJxb
-      - subaccount=Trader
+    envs:
+    - secrets.env
 resources:
   - trader-deployment.yaml
